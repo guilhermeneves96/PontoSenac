@@ -1,0 +1,76 @@
+
+/*Variaveis de cores4*/
+:root {
+    /*Cores Primarias*/
+    --primary-50: #e6eef4;
+    --primary-500: #005594;
+    --primary-900: #00243e;
+    /*Cores Secundaria*/
+    --secundary-50: #fef3e9; 
+    --secundary-500: #f78b1f; 
+    --secundary-800: #884c11; 
+    /*Padrão clound - tons de cinza*/
+    --clound-50: #ebebeb;
+    --clound-100: #c1c1c1;
+    --clound-200: #a3a3a3;
+    --clound-300: #787878;
+    --clound-500: #363636;
+    --clound-800: #1e1e1e;
+    /*Contraste*/
+    --constrate-0: #fff;
+    --constrate-1000: #000;
+    /*Error*/
+    --error-50: #fbecec;
+    --error-500: #d24141;
+    --error-800: #742424;
+    /*Warning*/
+    --warning-50: #fffce6;
+    --warning-500: #ffde03;
+    --warning-900: #6b5d01;
+    /*Sucess*/
+    --sucess-50: #e9f8f1;
+    --sucess-200: #9ae0bc;
+    --sucess-500: #24bc6e;
+    --sucess-900: #0f4f2e;
+    /*Info*/
+    --info-50: #e9f6f8;
+    --info-500: #24a3bc;
+    --info-900: #0f444f;
+}
+
+/*Classes para utilização de Cores em TEXTO. OBS.: Para background utilizer o variavel direto no css no elemento*/
+
+.primary-50{color: var(--primary-50);}
+.primary-500{color: var(--primary-500);}
+.primary-900{color: var(--primary-900);}
+
+.secundary-50{color: var(--secundary-50);}
+.secundary-500{color: var(--secundary-500);}
+.secundary-800{color: var(--secundary-800);}
+
+.clound-50{color: var(--clound-50);}
+.clound-100{color: var(--clound-100);}
+.clound-200{color: var(--clound-200);}
+.clound-300{color: var(--clound-300);}
+.clound-500{color: var(--clound-500);}
+.clound-800{color: var(--clound-800);}
+
+.contraste-0{color: var(--constrate-0);}
+.contraste-1000{color: var(--constrate-1000);}
+
+.error-50{color: var(--error-50);}
+.error-500{color: var(--error-500);}
+.error-800{color: var(--error-800);}
+
+.warning-50{color: var(--warning-50);}
+.warning-500{color: var(--warning-500);}
+.warning-900{color: var(--warning-900);}
+
+.sucess-50{color: var(--sucess-50);}
+.sucess-200{color: var(--sucess-200);}
+.sucess-500{color: var(--sucess-500);}
+.sucess-900{color: var(--sucess-900);}
+
+.info-50{color: var(--info-50);}
+.info-500{color: var(--info-500);}
+.info-900{color: var(--info-900);}

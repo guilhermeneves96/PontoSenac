@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/colaborador/colaborador.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/colaborador/formulario.css}">
+    <title>Colaborador</title>
+</head>
+<body>
+    <div class="header-bg">
+        <header>
+            <img th:src="@{/img/logosenac.svg}" alt="Logo Senac">
+            <nav>
+                <ul>
+                    <li><a th:href="${'/inicio'}">Inicio</a></li>
+                    <li><a class="active" href="#">Colaboradores</a></li>
+                    <li><a href="#">Relatórios</a></li>
+                </ul>
+            </nav>
+            <div>
+                <a href=""> <img th:src="@{/icons/config.svg}" alt="Configurações"></a>
+                <a href=""><img th:src="@{/icons/exit.svg}" alt="Sair do sistema"></a>
+            </div>
+        </header>
+    </div>
+
+    <main>
+        <h1 class="display-large-sb" th:text="${titulo}"></h1>
+        <form class="container" action="/colaboradores/salvar" method="post">
+
+            <div th:if="${colaborador}">
+                <input type="hidden" name="id" th:value="${colaborador.id}">
+            </div>
+
+            <div>
+            <label for="nome">Nome</label>
+            <input th:value="${colaborador?.nome}" name="nome"  aria-label="nome" type="text" placeholder="Informe o nome" required>
+            </div>
+
+            <div class="col2">
+                <div>
+                    <label for="cpf">CPF</label>
+                    <input th:value="${colaborador?.cpf}"  name="cpf" aria-label="cpf" type="number" placeholder="Informe o cpf" required>
+                    <span class="erroSpan" th:if="${erroCpf}" th:text="${erroCpf}"></span>
+                </div>
+
+                <div>
+                    <label for="matricula">Matricula</label>
+                    <input th:value="${colaborador?.matricula}"  name="matricula" aria-label="matricula" type="number" placeholder="Informe o numeor de matricula" required>
+                    <div  th:if="${erroMat}" >
+                        <span class="erroSpan" th:text="${erroMat}"></span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col2">
+                <div>
+                    <label for="funcao">Função</label>
+                    <select name="funcao" required>
+                        <option>Selecione a função</option>
+                        <option th:each="funcao: ${funcao}" th:value="${funcao.id}" th:text="${funcao.descricao}" th:selected="${funcionario?.funcao?.id == funcao.id}"></option>
+                    </select>
+                    </div>
+
+                    <div>
+                        <label for="perfil">Perfil de Usuario</label>
+                        <select name="perfil" required>
+                            <option>Selecione a função</option>
+                            <option th:each="perfil: ${perfil}" th:value="${perfil.id}" th:text="${perfil.permissao}" th:selected="${funcionario?.perfil?.id == perfil.id}"></option>
+                        </select>
+                    </div>
+            </div>
+
+
+            <div class="col2">
+            <div>
+            <label for="email">E-mail</label>
+            <input  th:value="${colaborador?.email}" name="email" aria-label="e-mail" type="email" placeholder="Informe o e-mail" required>
+            </div>
+
+            <div>
+            <label for="contato">Contato</label>
+            <input th:value="${colaborador?.contato}"  name="contato" aria-label="contato" type="text" placeholder="(00) 0 0000-0000" required>
+            </div>
+            </div>
+
+            <div>
+                <label for="senha">Senha</label>
+                <input  th:value="${colaborador?.senha}" name="senha" aria-label="senha" type="password" placeholder="Informe sua senha" required>
+                </div>
+
+            <div class="div-btn">
+                <button class="button" type="submit">Salvar</button>
+            </div>
+
+
+        </form>
+    </main>    
+</body>
+</html>

@@ -1,0 +1,11 @@
+/* Configuração e tokens de tipografia*/
+@import "tokens/fonts.css";
+/*Configuração e tokens de Cores*/
+@import "tokens/colors.css";
+/*Atributos globais utilizados em varias paginas*/
+@import "global.css";
+/*Usado para Componente gerias*/
+@import "componentes/buttons.css";
+@import url(componentes/forms.css);
+@import url(componentes/header.css);
+@import "componentes/table.css";

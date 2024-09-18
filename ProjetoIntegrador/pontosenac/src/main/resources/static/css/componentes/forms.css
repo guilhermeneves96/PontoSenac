@@ -1,0 +1,50 @@
+form {
+    display: flex;
+    gap: 32px;
+}
+
+form div {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    justify-content: center;
+}
+
+label {
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.0;
+}
+
+input {
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.0;
+
+    padding: 12px 16px;
+    font-size: 14px;
+    border-radius: 6px;
+    background: var(--clound-50);
+    border: 0px;
+    &:hover{  
+        background: #d0d9e0;
+    }
+}
+
+select {
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.0;
+
+    padding: 12px 16px;
+    font-size: 14px;
+    border-radius: 6px;
+    background: var(--clound-50);
+    border: 0px;
+    &:hover{  
+        background: #d0d9e0;
+    }
+}

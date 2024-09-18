@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/login/login.css}">
+    <title>Login - Ponto Senac</title>
+</head>
+<body>
+    <main>
+        <div>
+            <img th:src="@{/img/logosenac.svg}" alt="Logo Senac">
+        </div>
+        <form class="container" action="/login/validar" method="post">
+
+            <div>
+                <label for="matricula">Matricula</label>
+                <input aria-label="matricula" name="matricula" type="text" placeholder="Informe sua Matricula">
+            </div>
+
+            <div>
+                <label for="senha">Senha</label>
+                <input aria-label="senha" name="senha" type="password" placeholder="Informe sua senha">
+            </div>
+
+            <div th:if="${erro}">
+                <span th:text="${erro}"></span>
+            </div>
+
+
+            <button class="button" type="submit">Entrar</button>
+            <a class="button-ghost" href="#"> Esqueci minha senha? </a>
+            
+        </form>
+    </main>
+</body>
+</html>

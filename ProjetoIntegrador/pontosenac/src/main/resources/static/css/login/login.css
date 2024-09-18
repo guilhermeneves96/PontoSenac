@@ -1,0 +1,38 @@
+body {
+    display: flex;
+    justify-content: center;
+}
+
+body::after {
+    display: block;
+    position: absolute;
+    content: "";
+    background: var(--primary-500);
+    width: 100%;
+    height: 356px;
+    z-index: -1;
+    
+}
+
+main {
+    position: absolute;
+    margin-top: 112px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    align-items: center;
+}
+
+main div img{
+    height: 100px;
+}
+
+.container {
+    max-width: 360px;
+    width: 360px;
+}
+
+span {
+    text-align: center;
+    color: rgb(226, 43, 43);
+}

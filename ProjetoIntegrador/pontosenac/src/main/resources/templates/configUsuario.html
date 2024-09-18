@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/colaborador/colaborador.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/colaborador/formulario.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/baterponto/configUsuario.css}">
+    <title>Configurações</title>
+</head>
+<body>
+    <div class="header-bg">
+        <header>
+            <img th:src="@{/img/logosenac.svg}" alt="Logo Senac">
+            <nav>
+                <ul>
+                    <li><a th:href="@{'/baterponto'}">Inicio</a></li>
+                    <li><a href="#">Relatórios</a></li>
+                </ul>
+            </nav>
+            <div>
+                <a href=""> <img th:src="@{/icons/config.svg}" alt="Configurações"></a>
+                <a href=""><img th:src="@{/icons/exit.svg}" alt="Sair do sistema"></a>
+            </div>
+        </header>
+    </div>
+
+    <main>
+        <h1 class="display-large-sb">Configurações</h1>
+        <form class="container" action="/colaboradores/salvar" method="post">
+            <h2 class="section-large-md">Dados Pessoais</h2>
+            <div th:if="${colaborador}">
+                <input type="hidden" name="id" th:value="${colaborador.id}">
+            </div>
+
+            <div>
+            <label for="nome">Nome</label>
+            <input th:value="${colaborador?.nome}" name="nome"  aria-label="nome" type="text" placeholder="Informe o nome">
+            </div>
+
+
+            <div class="col2">
+            <div>
+            <label for="email">E-mail</label>
+            <input  th:value="${colaborador?.email}" name="email" aria-label="e-mail" type="email" placeholder="Informe o e-mail">
+            </div>
+
+            <div>
+            <label for="contato">Contato</label>
+            <input th:value="${colaborador?.contato}"  name="contato" aria-label="contato" type="text" placeholder="(00) 0 0000-0000">
+            </div>
+            </div>
+
+            <div class="div-btn">
+                <button class="button" type="submit">Salvar</button>
+            </div>
+
+
+        </form>
+
+        <form class="container" action="/colaboradores/salvar" method="post">
+            <h2 class="section-large-md">Segurança</h2>
+            <div th:if="${colaborador}">
+                <input type="hidden" name="id" th:value="${colaborador.id}">
+            </div>
+
+            <div>
+            <label for="nome">Senha Atual</label>
+             <input  th:value="${colaborador?.senha}" name="senha" aria-label="senha" type="password" placeholder="Informe sua senha">
+            </div>
+
+
+            <div class="col2">
+            <div>
+            <label for="email">Nova senha</label>
+            <input  th:value="${colaborador?.senha}" name="senha" aria-label="senha" type="password" placeholder="Informe sua senha">
+            </div>
+
+            <div>
+            <label for="contato">Confirma senha</label>
+            <input  th:value="${colaborador?.senha}" name="senha" aria-label="senha" type="password" placeholder="Informe sua senha">
+            </div>
+            </div>
+
+            <div class="div-btn">
+                <button class="button" type="submit">Alterar</button>
+            </div>
+
+
+        </form>
+    </main>    
+</body>
+</html>

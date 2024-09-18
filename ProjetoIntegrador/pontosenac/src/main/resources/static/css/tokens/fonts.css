@@ -1,0 +1,191 @@
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+.display-large-rg {
+  font-size: 2rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.display-large-md {
+  font-size: 2rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.display-large-sb {
+  font-size: 2rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.display-medium-rg {
+  font-size: 1.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.display-medium-md {
+  font-size: 1.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.display-medium-sb {
+  font-size: 1.875rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.display-small-rg {
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.section-large-rg {
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.section-large-md {
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.section-large-sb {
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.section-medium-rg {
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.section-medium-md {
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.section-medium-sb {
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.section-small-rg {
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.section-small-md {
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.2;
+}
+.section-small-sb {
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.body-medium-rg {
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+.body-medium-md {
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.body-small-rg {
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.body-small-md {
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.componentes-medium-rg {
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.0;
+}
+
+.componentes-medium-md {
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.0;
+}
+
+.componentes-medium-sb {
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.0;
+}
+
+.componentes-small-rg {
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.2;
+}
+
+.componentes-small-md {
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.caption-regular-rg {
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.2;
+}
+
+.caption-regular-sb {
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.2;
+}

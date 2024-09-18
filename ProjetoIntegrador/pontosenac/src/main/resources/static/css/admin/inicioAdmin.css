@@ -1,0 +1,57 @@
+body {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+body::after {
+    top: 0;
+    display: block;
+    position: absolute;
+    content: "";
+    background: var(--primary-500);
+    width: 100%;
+    height: 328px;
+    z-index: -1;
+    
+}
+
+h1, .display-medium-sb {
+    margin: 0;
+    margin-block-end: 0;
+    margin-block-start: 0;
+}
+main {
+    margin: 0 auto;
+    width: 1128px;
+}
+
+.identificacao {
+    margin-top: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 0;
+}
+
+.funcao-matricula {    
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    align-items: center;
+}
+
+.funcao-matricula span {
+    margin: 0;
+}
+
+.funcao-matricula span,h3 {
+    margin: 0;
+}
+
+.registro-pontos{
+    margin-top: 48px;
+}

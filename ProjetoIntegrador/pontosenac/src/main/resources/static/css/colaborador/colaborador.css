@@ -1,0 +1,12 @@
+
+
+main {
+    width: 1128px;
+    margin: 48px auto;
+}
+
+main div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

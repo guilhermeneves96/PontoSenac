@@ -1,0 +1,24 @@
+@import url('tokens/colors.css');
+
+body {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    background-color: var(--clound-50);
+    
+
+}
+
+.container{
+    background: var(--constrate-0);
+    padding: 24px;
+    flex-direction: column;
+    border-radius: 8px;
+    box-sizing: border-box;
+
+}
+
+.erroSpan {
+    text-align: start;
+    color: rgb(226, 43, 43);
+}
