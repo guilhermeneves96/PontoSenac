@@ -32,6 +32,9 @@ public class Pessoa {
     @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
     List<RegistroPonto> registrosPonto;
 
+    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+    List<Solicitacao> solicitacoes;
+
     public Pessoa() {
     }
 
@@ -124,6 +127,14 @@ public class Pessoa {
 
     public void setFuncao(Funcao funcao) {
         this.funcao = funcao;
+    }
+
+    public List<Solicitacao> getSolicitacoes() {
+        return solicitacoes;
+    }
+
+    public void setSolicitacoes(List<Solicitacao> solicitacoes) {
+        this.solicitacoes = solicitacoes;
     }
 
 }
