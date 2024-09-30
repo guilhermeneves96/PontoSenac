@@ -18,7 +18,7 @@ public class Solicitacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String dataAbertura, dataSolicita, decricao;
+    private String dataAbertura, dataSolicita, horaEntrada, horaSaida, decricao, observacao;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private Pessoa pessoa;
@@ -32,15 +32,34 @@ public class Solicitacao {
     public Solicitacao() {
     }
 
-    public Solicitacao(int id, String dataAbertura, String dataSolicita, String decricao, Pessoa pessoa, Status status,
-            TipoSolicitacao tipoSolicitacao) {
+    public Solicitacao(int id, String dataAbertura, String dataSolicita, String horaEntrada, String horaSaida,
+            String decricao, String observacao, Pessoa pessoa, Status status, TipoSolicitacao tipoSolicitacao) {
         this.id = id;
         this.dataAbertura = dataAbertura;
         this.dataSolicita = dataSolicita;
+        this.horaEntrada = horaEntrada;
+        this.horaSaida = horaSaida;
         this.decricao = decricao;
+        this.observacao = observacao;
         this.pessoa = pessoa;
         this.status = status;
         this.tipoSolicitacao = tipoSolicitacao;
+    }
+
+    public String getHoraEntrada() {
+        return horaEntrada;
+    }
+
+    public void setHoraEntrada(String horaEntrada) {
+        this.horaEntrada = horaEntrada;
+    }
+
+    public String getHoraSaida() {
+        return horaSaida;
+    }
+
+    public void setHoraSaida(String horaSaida) {
+        this.horaSaida = horaSaida;
     }
 
     public int getId() {
@@ -97,6 +116,14 @@ public class Solicitacao {
 
     public void setTipoSolicitacao(TipoSolicitacao tipoSolicitacao) {
         this.tipoSolicitacao = tipoSolicitacao;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
     }
 
 }

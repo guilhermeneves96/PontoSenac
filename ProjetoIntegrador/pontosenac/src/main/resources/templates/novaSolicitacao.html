@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{/css/solicitacao/solicitacao.css}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{/css/colaborador/formulario.css}"
+    />
+    <title>Colaborador</title>
+  </head>
+  <body>
+    <div class="header-bg">
+      <header>
+        <img th:src="@{/img/logosenac.svg}" alt="Logo Senac" />
+        <nav>
+          <ul>
+            <li><a th:href="${'/inicio'}">Inicio</a></li>
+            <li><a class="active" href="#">Colaboradores</a></li>
+            <li><a href="#">Relatórios</a></li>
+          </ul>
+        </nav>
+        <div>
+          <a href="">
+            <img th:src="@{/icons/config.svg}" alt="Configurações"
+          /></a>
+          <a href=""
+            ><img th:src="@{/icons/exit.svg}" alt="Sair do sistema"
+          /></a>
+        </div>
+      </header>
+    </div>
+
+    <main>
+      <h1 class="display-large-sb" th:text="${titulo}"></h1>
+
+      <form class="container" action="/solicitacao/salvar" method="post">
+        <div class="col2">
+          <div>
+            <label for="funcao">Selecione o tipo</label>
+            <select name="tipo" required>
+              <option>Selecione a tipo</option>
+              <option
+                th:each="funcao: ${funcao}"
+                th:value="${funcao.id}"
+                th:text="${funcao.descricao}"
+                th:selected="${funcionario?.funcao?.id == funcao.id}"
+              ></option>
+            </select>
+          </div>
+
+          <div>
+            <label for="data">Data a ser alterada</label>
+            <input type="date" name="data" />
+          </div>
+        </div>
+
+        <div class="col2">
+          <div>
+            <label for="horaIncio">Hora de Entrada</label>
+            <input type="time" name="horaEntrada" />
+          </div>
+          <div>
+            <label for="horaSaida">Hora Saida</label>
+            <input type="time" name="horaSaida" />
+          </div>
+        </div>
+
+        <div>
+          <label for="descricao">Adicione uma observação</label>
+          <textarea name="descricao" id="descricao"></textarea>
+        </div>
+
+        <div class="div-btn">
+          <button class="button" type="submit">Salvar</button>
+          <a class="buttorn-secundary" th:href="@{'/solicitacao'}">Cancelar</a>
+        </div>
+        
+      </form>
+    </main>
+
+    <script>
+      const timeInputs = document.querySelectorAll('input[type="time"]');
+
+      // Adiciona um evento de clique a cada input
+      timeInputs.forEach((input) => {
+        input.addEventListener("click", function () {
+          this.showPicker(); // Mostra o seletor de hora
+        });
+      });
+    </script>
+  </body>
+</html>

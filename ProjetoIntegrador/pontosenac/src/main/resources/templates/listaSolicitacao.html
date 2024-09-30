@@ -3,9 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/colaborador/colaborador.css}">
+
+
+    <title>Solicitações</title>
 </head>
 <body>
-    
+
+    <div class="header-bg">
+        <header>
+            <img th:src="@{/img/logosenac.svg}" alt="Logo Senac">
+            <nav>
+                <ul>
+                    <li><a th:href="${'/baterponto'}">Inicio</a></li>
+                    <li><a href="#">Relatórios</a></li>
+                    <li><a class="active" href="#">Solicitações</a></li>
+                </ul>
+            </nav>
+            <div>
+                <a href=""> <img th:src="@{/icons/config.svg}" alt="Configurações"></a>
+                <a th:href="@{'/login'}"><img th:src="@{/icons/exit.svg}" alt="Sair do sistema"></a>
+            </div>
+        </header>
+    </div>
+
+    <main>
+        <div>
+            <h1 class="display-large-sb">Solicitações</h1>
+            <a class="button" th:href="@{/solicitacao/novasolicitacao}">Nova Solicitação</a>
+        </div>
+
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th>Descrição</th>
+                    <th>Status</th>
+                    <th>Ação</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-th-each="colaborador: ${colaboradores}">
+                    <td class="componentes-medium-md"></td>
+                    <td class="compomemtes-medium-rg clound-300"></td>
+                    <td class="compomemtes-medium-rg clound-300"></td>
+                    <td class="compomemtes-medium-rg clound-300">
+                        <a >
+                            <img th:src="@{/icons/delete.svg}" alt="deletar">
+                        </a>
+                    </td>
+                    <td class="componentes-medium-rg clound-300 ">
+                        <a>
+                            <img th:src="@{/icons/edit.svg}" alt="Editar">
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+    </main>
 </body>
 </html>

@@ -33,12 +33,29 @@ input {
     }
 }
 
+textarea {
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.0;
+     width: 100%;
+    padding: 12px 16px;
+    font-size: 14px;
+    border-radius: 6px;
+    background: var(--clound-50);
+    border: 0px;
+    box-sizing: border-box;
+    &:hover{  
+        background: #d0d9e0;
+    }
+}
+
 select {
     font-size: 1rem;
     font-style: normal;
     font-weight: 400;
     line-height: 1.0;
-
+    width: 100%;
     padding: 12px 16px;
     font-size: 14px;
     border-radius: 6px;

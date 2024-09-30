@@ -44,6 +44,22 @@
     }
 }
 
+.buttorn-secundary {
+    text-decoration: none;
+    padding: 12px 24px;
+    justify-content: center;
+    background-color: var(--contraste-0);
+    border: 1px solid var(--clound-500);
+    color: var(--clound-800);
+    font-size:0.875rem;
+    font-weight: 600;
+    border-radius: 48px;
+    &:hover{
+        background-color: #eee9e4;
+        cursor: pointer;
+    }    
+}
+
 .button-ghost {
     text-decoration: none;
     text-align: center;
