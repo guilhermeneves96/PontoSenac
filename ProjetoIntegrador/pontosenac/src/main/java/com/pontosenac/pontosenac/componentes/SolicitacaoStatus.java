@@ -1,6 +1,6 @@
 package com.pontosenac.pontosenac.componentes;
 
-public enum Status {
+public enum SolicitacaoStatus {
     PENDENTE,
     CANCELADO,
     RECUSADO,

@@ -14,7 +14,7 @@ public class TipoSolicitacao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int descricao;
+    private String descricao;
 
     @OneToMany(mappedBy = "tipoSolicitacao")
     List<Solicitacao> solicitacao;
@@ -22,7 +22,7 @@ public class TipoSolicitacao {
     public TipoSolicitacao() {
     }
 
-    public TipoSolicitacao(int id, int descricao, List<Solicitacao> solicitacao) {
+    public TipoSolicitacao(int id, String descricao, List<Solicitacao> solicitacao) {
         this.id = id;
         this.descricao = descricao;
         this.solicitacao = solicitacao;
@@ -36,11 +36,11 @@ public class TipoSolicitacao {
         this.id = id;
     }
 
-    public int getDescricao() {
+    public String getDescricao() {
         return descricao;
     }
 
-    public void setDescricao(int descricao) {
+    public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
 

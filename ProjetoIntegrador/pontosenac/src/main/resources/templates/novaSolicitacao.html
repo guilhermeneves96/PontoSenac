@@ -42,29 +42,29 @@
       <h1 class="display-large-sb" th:text="${titulo}"></h1>
 
       <form class="container" action="/solicitacao/salvar" method="post">
+
         <div class="col2">
           <div>
-            <label for="funcao">Selecione o tipo</label>
-            <select name="tipo" required>
+            <label for="tipoSolicitacao">Selecione o tipo</label>
+            <select name="tipoSolicitacao" required>
               <option>Selecione a tipo</option>
               <option
-                th:each="funcao: ${funcao}"
-                th:value="${funcao.id}"
-                th:text="${funcao.descricao}"
-                th:selected="${funcionario?.funcao?.id == funcao.id}"
+                th:each="tipoSolicitacao: ${tipoSolicitacao}"
+                th:value="${tipoSolicitacao.id}"
+                th:text="${tipoSolicitacao.descricao}"
               ></option>
             </select>
           </div>
 
           <div>
-            <label for="data">Data a ser alterada</label>
-            <input type="date" name="data" />
+            <label for="dataSolicita">Data a ser alterada</label>
+            <input type="date" name="dataSolicita" />
           </div>
         </div>
 
         <div class="col2">
           <div>
-            <label for="horaIncio">Hora de Entrada</label>
+            <label for="horaEntrada">Hora de Entrada</label>
             <input type="time" name="horaEntrada" />
           </div>
           <div>

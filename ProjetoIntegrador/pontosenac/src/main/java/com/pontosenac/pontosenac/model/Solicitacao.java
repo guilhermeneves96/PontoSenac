@@ -1,6 +1,6 @@
 package com.pontosenac.pontosenac.model;
 
-import java.io.ObjectInputFilter.Status;
+import com.pontosenac.pontosenac.componentes.SolicitacaoStatus;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -18,13 +18,13 @@ public class Solicitacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String dataAbertura, dataSolicita, horaEntrada, horaSaida, decricao, observacao;
+    private String dataAbertura, dataSolicita, horaEntrada, horaSaida, descricao, observacao;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Pessoa pessoa;
 
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private SolicitacaoStatus SolicitacaoStatus;
 
     @ManyToOne(cascade = CascadeType.REFRESH)
     private TipoSolicitacao tipoSolicitacao;
@@ -33,16 +33,17 @@ public class Solicitacao {
     }
 
     public Solicitacao(int id, String dataAbertura, String dataSolicita, String horaEntrada, String horaSaida,
-            String decricao, String observacao, Pessoa pessoa, Status status, TipoSolicitacao tipoSolicitacao) {
+            String descricao, String observacao, Pessoa pessoa, SolicitacaoStatus solicitacaoStatus,
+            TipoSolicitacao tipoSolicitacao) {
         this.id = id;
         this.dataAbertura = dataAbertura;
         this.dataSolicita = dataSolicita;
         this.horaEntrada = horaEntrada;
         this.horaSaida = horaSaida;
-        this.decricao = decricao;
+        this.descricao = descricao;
         this.observacao = observacao;
         this.pessoa = pessoa;
-        this.status = status;
+        this.SolicitacaoStatus = solicitacaoStatus;
         this.tipoSolicitacao = tipoSolicitacao;
     }
 
@@ -87,11 +88,11 @@ public class Solicitacao {
     }
 
     public String getDecricao() {
-        return decricao;
+        return descricao;
     }
 
-    public void setDecricao(String decricao) {
-        this.decricao = decricao;
+    public void setDecricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public Pessoa getPessoa() {
@@ -102,12 +103,20 @@ public class Solicitacao {
         this.pessoa = pessoa;
     }
 
-    public Status getStatus() {
-        return status;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public SolicitacaoStatus getSolicitacaoStatus() {
+        return SolicitacaoStatus;
+    }
+
+    public void setSolicitacaoStatus(SolicitacaoStatus solicitacaoStatus) {
+        SolicitacaoStatus = solicitacaoStatus;
     }
 
     public TipoSolicitacao getTipoSolicitacao() {
