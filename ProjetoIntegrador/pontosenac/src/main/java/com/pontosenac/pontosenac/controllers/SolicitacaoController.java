@@ -31,14 +31,21 @@ public class SolicitacaoController {
     PessoaRepository pessoaRepository;
 
     @GetMapping
-    public String pagina(HttpSession session, Model model) {
+    public ModelAndView pagina(HttpSession session, Model model) {
+
+        ModelAndView mv = new ModelAndView("listaSolicitacao");
         Pessoa pessoa = (Pessoa) session.getAttribute("pessoaAutenticada");
-        if (pessoa == null) {
+        if (pessoa != null) {
+            List<Solicitacao> solicitacaos = pessoa.getPerfil().getPermissao().equalsIgnoreCase("admin")
+                    ? solicitacoesRepository.findAll()
+                    : solicitacoesRepository.findByPessoa(pessoa);
+            mv.addObject("solicitacoes", solicitacaos);
+        } else {
             model.addAttribute("erro", "Você não esta Autenticado");
-            return "redirect:/login"; // ou qualquer página de erro apropriada
+            mv.setViewName("redirect:/login");
         }
 
-        return "listaSolicitacao";
+        return mv;
     }
 
     @GetMapping("/novasolicitacao")

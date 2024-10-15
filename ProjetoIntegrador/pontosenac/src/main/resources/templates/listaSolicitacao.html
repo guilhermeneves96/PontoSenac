@@ -12,6 +12,8 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/colaborador/colaborador.css}">
 
+    <script th:src="@{/js/status.js}"></script>
+
 
     <title>Solicitações</title>
 </head>
@@ -44,23 +46,21 @@
         <table>
             <thead>
                 <tr>
+                    <th>Data Abertura</th>
                     <th>Tipo</th>
                     <th>Descrição</th>
                     <th>Status</th>
                     <th>Ação</th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr data-th-each="colaborador: ${colaboradores}">
-                    <td class="componentes-medium-md"></td>
-                    <td class="compomemtes-medium-rg clound-300"></td>
-                    <td class="compomemtes-medium-rg clound-300"></td>
-                    <td class="compomemtes-medium-rg clound-300">
-                        <a >
-                            <img th:src="@{/icons/delete.svg}" alt="deletar">
-                        </a>
-                    </td>
+                <tr data-th-each="solicitacao: ${solicitacoes}">
+                    <td class="componentes-medium-md" data-th-text="${solicitacao.dataAbertura}"></td>
+                    <td class="compomemtes-medium-rg clound-300" data-th-text="${solicitacao.tipoSolicitacao.descricao}"></td>
+                    <td class="compomemtes-medium-rg clound-300" data-th-text="${solicitacao.descricao}"></td>
+                    <td id="statusTd" class="compomemtes-medium-rg clound-300"
+                    data-th-text="${solicitacao.solicitacaoStatus}">
+                </td>
                     <td class="componentes-medium-rg clound-300 ">
                         <a>
                             <img th:src="@{/icons/edit.svg}" alt="Editar">
@@ -71,5 +71,28 @@
         </table>
         
     </main>
+
+    <script>
+        const statusTd = document.getElementById('statusTd');
+        const status = statusTd.textContent.trim();
+
+        switch (status) {
+            case 'PENDENTE':
+                statusTd.classList.add('pendentes');
+                break;
+            case 'CANCELADO':
+                statusTd.classList.add('cancelado');
+                break;
+            case 'RECUSADO':
+                statusTd.classList.add('recusado');
+                break;
+            case 'CONCLUÍDO':
+                statusTd.classList.add('concluido');
+                break;
+            default:
+                break;
+        }
+    </script>
+
 </body>
 </html>
