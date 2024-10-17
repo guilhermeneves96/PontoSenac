@@ -1,0 +1,76 @@
+
+
+main {
+    width: 1128px;
+    margin: 48px auto;
+}
+
+main div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.container {
+    width: 1128px;
+    margin: 0 auto;
+}
+
+form {
+    width: 100%;
+    display: grid;
+    gap: 32px;
+}
+
+form div {
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+form div input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+
+.col2{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+}
+
+.div-btn {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+}
+.button {
+    width: 296px;
+}
+
+
+.filtro {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    flex: 0;
+}
+
+.title-filtro {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.buttorn-secundary {
+    height: 44px;
+}
+
+select {
+    width: 300px;
+    background: #fff;
+}

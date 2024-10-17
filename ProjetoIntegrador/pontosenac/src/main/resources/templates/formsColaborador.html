@@ -63,7 +63,7 @@
                         <option>Selecione a função</option>
                         <option th:each="funcao: ${funcao}" th:value="${funcao.id}" th:text="${funcao.descricao}" th:selected="${funcionario?.funcao?.id == funcao.id}"></option>
                     </select>
-                    </div>
+                </div>
 
                     <div>
                         <label for="perfil">Perfil de Usuario</label>

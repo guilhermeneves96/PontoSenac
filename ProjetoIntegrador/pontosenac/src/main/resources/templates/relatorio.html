@@ -9,18 +9,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/baterponto/baterponto.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/registro/registro.css}">
     <title>Meu Registro de Ponto</title>
 </head>
 <body>
 
-    <div class="header-bg"></div>
+    <div class="header-bg">
         <header>
             <img th:src="@{/img/logosenac.svg}" alt="Logo Senac">
             <nav>
                 <ul>
-                    <li><a class="active" href="#">Inicio</a></li>
-                    <li><a th:href="@{'/relatorio'}">Relatórios</a></li>
+                    <li><a th:href="@{'/baterponto'}">Inicio</a></li>
+                    <li><a class="active" href="#">Relatórios</a></li>
                     <li><a th:href="@{'/solicitacao'}">Solicitações</a></li>
                 </ul>
             </nav>
@@ -31,28 +31,21 @@
         </header>
     </div>
 
+    </div>
+
     <main>
-        <div class="contraste-0 identificacao">
-            <h1 class="display-large-md">Olá, <span class="display-medium-sb" th:text="${pessoa.nome}"></span></h1>
-            <div class="primary-50 funcao-matricula">
-                <span class="componentes-medium-md" th:text="${pessoa.funcao.descricao}"></span>
-                <span class="componentes-medium-rg"> Matricula: <span th:text="${pessoa.matricula}"></span></span>
-            </div>
+        <div>
+            <h1 class="display-large-sb title-filtro">Registro de Ponto</h1>
+            <form class="filtro" action="" method="POST">
+                                    <select name="filtroMes" required>
+                        <option>Filtrar por mês</option>
+                        <option th:each="mesAno: ${mesAno}" th:value="${mesAno}" th:text="${mesAno}" ></option>
+                    </select>
+                <button class="buttorn-secundary">Filtrar</button>
+            </form>
         </div>
-        <section class="registrar-ponto">
-            <div class="">
-                <span class="componentes-medium-sb clound-300">Hoje é</span>
-                <h3 class="display-medium-rg" th:text="${dataAtual}">13, Jan 2024</h3>
-            </div>
-            <div>
-                <form action="/baterponto" method="post">
-                    <button class="button" type="submit">Registrar Ponto</button>
-                </form>
-            </div>            
-        </section>
 
         <section class="registro-pontos">
-            <h3 class="section-large-sb clound-800">Registro de Ponto</h3>
 
             <table>
                 <thead>
@@ -64,11 +57,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr data-th-each="registroPontos: ${registrosPontos}">
+                    <tr data-th-each="registroPontos: ${registrosPonto}">
                         <td class="componentes-small-md" data-th-text="${registroPontos.data}"></td>
                         <td class="componentes-small-rg clound-300" data-th-text="${registroPontos.periodo}"></td>
                         <td class="componentes-small-rg clound-300" data-th-text="${registroPontos.horaEntrada}"></td>
-                        <td class="componentes-small-rg clound-300" data-th-text="${registroPontos.horaSaida}"></td>
+                        <td class="componentes-small-rg clound-300" data-th-text="${registroPontos.horaSaida != null and registroPontos.horaSaida != '' ? registroPontos.horaSaida : 'Sem registro'}"></td>
                     </tr>
                 </tbody>
             </table>

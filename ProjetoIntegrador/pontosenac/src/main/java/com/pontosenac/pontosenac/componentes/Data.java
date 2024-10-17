@@ -9,7 +9,13 @@ public class Data {
     // Obtem a data Atual
     private LocalDate dataAtual = LocalDate.now();
     // Defini o formato desejado
-    private DateTimeFormatter formatar = DateTimeFormatter.ofPattern("d, MMM yyy").withLocale(new Locale("pt", "BR"));
+    private DateTimeFormatter formatar = DateTimeFormatter.ofPattern("dd, MMM yyyy")
+            .withLocale(Locale.forLanguageTag("pt-BR"));
+
+    // private DateTimeFormatter formatar = DateTimeFormatter.ofPattern("dd, MMM
+    // yyyy")
+    // .withLocale(new Locale("pt", "BR")); // Use o construtor Locale
+
     // Formata a data
     private String dataFormatada = dataAtual.format(formatar);
 
