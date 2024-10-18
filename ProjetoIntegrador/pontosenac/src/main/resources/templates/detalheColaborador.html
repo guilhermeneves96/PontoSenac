@@ -1,70 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
 
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/baterponto/baterponto.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{/css/detalheColaborador/detalheColaborador.css}"
+    />
     <title>Meu Registro de Ponto</title>
-</head>
-<body>
-
+  </head>
+  <body>
     <div class="header-bg">
-
-        <header>
-            <img th:src="@{/img/logosenac.svg}" alt="Logo Senac">
-            <nav>
-                <ul>
-                    <li><a th:href="@{'/inicio'}">Inicio</a></li>
-                    <li><a class="active" th:href="@{'/colaboradores/lista'}">Relatórios</a></li>
-                    <li><a th:href="@{'/solicitacao'}">Solicitações</a></li>
-                </ul>
-            </nav>
-            <div>
-                <a th:href="@{'/configuracaoUsuario'}"> <img th:src="@{/icons/config.svg}" alt="Configurações"></a>
-                <a th:href="@{'/login'}"><img th:src="@{/icons/exit.svg}" alt="Sair do sistema"></a>
-            </div>
-        </header>
-        
+      <header>
+        <img th:src="@{/img/logosenac.svg}" alt="Logo Senac" />
+        <nav>
+          <ul>
+            <li><a th:href="@{'/inicio'}">Inicio</a></li>
+            <li>
+              <a class="active" th:href="@{'/colaboradores/lista'}"
+                >Colabordores</a
+              >
+            </li>
+            <li><a th:href="@{'/solicitacao'}">Solicitações</a></li>
+          </ul>
+        </nav>
+        <div>
+          <a th:href="@{'/configuracaoUsuario'}">
+            <img th:src="@{/icons/config.svg}" alt="Configurações"
+          /></a>
+          <a th:href="@{'/login'}"
+            ><img th:src="@{/icons/exit.svg}" alt="Sair do sistema"
+          /></a>
+        </div>
+      </header>
     </div>
 
     <main>
-        <div class="contraste-0 identificacao">
-            <h1 class="display-large-md" th:text="${pessoa.nome}"></h1>
-            <div class="primary-50 funcao-matricula">
-                <span class="componentes-medium-md" th:text="${pessoa.funcao.descricao}"></span>
-                <span class="componentes-medium-rg"> Matricula: <span th:text="${pessoa.matricula}"></span></span>
-            </div>
+      <div class="contraste-0 identificacao">
+        <h1 class="display-large-md" th:text="${pessoa.nome}"></h1>
+        <div class="primary-50 funcao-matricula">
+          <span
+            class="componentes-medium-md"
+            th:text="${pessoa.funcao.descricao}"
+          ></span>
+          <span class="componentes-medium-rg">
+            Matricula: <span th:text="${pessoa.matricula}"></span
+          ></span>
+        </div>
+      </div>
+
+      <section class="registro-pontos">
+        <div  class="title-filtro">
+          <h2 class="display-large-sb title-filtro contraste-0">Registro de Ponto</h2>
+          <div class="filtro">
+            <form class="filtro" action="/relatorio" method="POST">
+              <select name="filtroMes" required>
+                <option value="">Filtrar por mês</option>
+                <option
+                  th:each="mesAno : ${mesAno}"
+                  th:value="${mesAno}"
+                  th:text="${mesAno}"
+                  th:selected="${mesAno == mesAnoSelecionado}"
+                ></option>
+              </select>
+              <button type="submit" class="buttorn-secundary secundary-dark ">Filtrar</button>
+            </form>
+
+            <form th:if="${limpar}" action="/relatorio" method="get">
+              <button type="submit" class="button-ghost">Ver todos</button>
+            </form>
+          </div>
         </div>
 
-        <section class="registro-pontos">
-            <h3 class="section-large-sb clound-800">Registro de Ponto</h3>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Dia</th>
-                        <th>Periodo</th>
-                        <th>Entrada</th>
-                        <th>Saida</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr data-th-each="registroPontos: ${registrosPontos}">
-                        <td class="componentes-small-md" data-th-text="${registroPontos.data}"></td>
-                        <td class="componentes-small-rg clound-300" data-th-text="${registroPontos.periodo}"></td>
-                        <td class="componentes-small-rg clound-300" data-th-text="${registroPontos.horaEntrada}"></td>
-                        <td class="componentes-small-rg clound-300" data-th-text="${registroPontos.horaSaida}"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+        <table>
+          <thead>
+            <tr>
+              <th>Dia</th>
+              <th>Periodo</th>
+              <th>Entrada</th>
+              <th>Saida</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-th-each="registroPontos: ${registrosPontos}">
+              <td
+                class="componentes-small-md"
+                data-th-text="${registroPontos.data}"
+              ></td>
+              <td
+                class="componentes-small-rg clound-300"
+                data-th-text="${registroPontos.periodo}"
+              ></td>
+              <td
+                class="componentes-small-rg clound-300"
+                data-th-text="${registroPontos.horaEntrada}"
+              ></td>
+              <td
+                class="componentes-small-rg clound-300"
+                data-th-text="${registroPontos.horaSaida}"
+              ></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
     </main>
-    
-</body>
+  </body>
 </html>

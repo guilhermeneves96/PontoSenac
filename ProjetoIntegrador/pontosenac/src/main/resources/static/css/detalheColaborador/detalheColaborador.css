@@ -1,0 +1,43 @@
+body {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+body::after {
+    top: 0;
+    display: block;
+    position: absolute;
+    content: "";
+    background: var(--primary-500);
+    width: 100%;
+    height: 328px;
+    z-index: -1;
+    
+}
+
+
+main {
+    margin: 0 auto;
+    width: 1128px;
+}
+
+.title-filtro {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.buttorn-secundary {
+    height: 44px;
+}
+
+select {
+    width: 300px;
+    background: #fff;
+}
+

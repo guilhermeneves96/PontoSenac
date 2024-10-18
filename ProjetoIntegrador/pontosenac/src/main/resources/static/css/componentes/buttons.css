@@ -81,3 +81,11 @@
         text-decoration: underline;
     }
 }
+
+.secundary-dark {
+    color: #fff;
+   border-color: #fff;
+    &:hover {
+        color: var(--primary-500);
+    }
+}

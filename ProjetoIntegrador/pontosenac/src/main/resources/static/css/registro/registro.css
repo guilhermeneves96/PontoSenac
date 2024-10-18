@@ -66,6 +66,13 @@ form div input {
     justify-content: space-between;
 }
 
+.filtro {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    flex: 0;
+}
+
 .buttorn-secundary {
     height: 44px;
 }
