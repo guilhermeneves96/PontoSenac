@@ -13,13 +13,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.pontosenac.pontosenac.model.Funcao;
 import com.pontosenac.pontosenac.model.Perfil;
 import com.pontosenac.pontosenac.model.Pessoa;
+import com.pontosenac.pontosenac.model.RegistroPonto;
 import com.pontosenac.pontosenac.repository.FuncaoRepository;
 import com.pontosenac.pontosenac.repository.PerfilRepository;
 import com.pontosenac.pontosenac.repository.PessoaRepository;
+import com.pontosenac.pontosenac.repository.RegistroPontoRepository;
 import com.pontosenac.pontosenac.services.PessoasService;
 
 @Controller
@@ -34,6 +35,8 @@ public class Colaboradores {
     private FuncaoRepository funcaoRepository;
     @Autowired
     private PerfilRepository perfilRepository;
+    @Autowired
+    RegistroPontoRepository registroPontoRepository;
 
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -115,6 +118,25 @@ public class Colaboradores {
 
             return "redirect:/colaboradores/lista";
         }
+    }
+
+    @GetMapping("/detalhes/{id}")
+    public ModelAndView detalhesColaborador(@PathVariable("id") int id, Model model) {
+        ModelAndView mv = new ModelAndView("detalheColaborador");
+        Optional<Pessoa> optionalPessoa = pessoaRepository.findById(id);
+
+        if (optionalPessoa.isPresent()) {
+            Pessoa pessoa = optionalPessoa.get();
+            mv.addObject("pessoa", pessoa); // Adiciona a Pessoa diretamente ao modelo
+
+            List<RegistroPonto> registrosPonto = registroPontoRepository.findByPessoaId(pessoa.getId());
+            mv.addObject("registrosPontos", registrosPonto);
+        } else {
+            // Trate o caso em que a pessoa não é encontrada, por exemplo:
+            mv.addObject("error", "Colaborador não encontrado");
+        }
+
+        return mv;
     }
 
 }

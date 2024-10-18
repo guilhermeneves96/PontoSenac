@@ -16,6 +16,8 @@ public interface RegistroPontoRepository extends JpaRepository<RegistroPonto, In
 
     Optional<List<RegistroPonto>> findByData(String data);
 
+    List<RegistroPonto> findByDataEndsWith(String mesANo);
+
     List<RegistroPonto> findByPessoaAndData(Pessoa pessoa, String data);
 
 }

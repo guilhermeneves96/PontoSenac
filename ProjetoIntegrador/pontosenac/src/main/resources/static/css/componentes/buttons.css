@@ -72,3 +72,12 @@
         text-decoration: underline;
     }
 }
+
+
+.link {
+    color: blue;
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
+}

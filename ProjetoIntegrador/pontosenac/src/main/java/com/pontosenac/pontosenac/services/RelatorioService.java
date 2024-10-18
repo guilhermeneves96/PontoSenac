@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -14,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.pontosenac.pontosenac.model.Pessoa;
 import com.pontosenac.pontosenac.model.RegistroPonto;
 import com.pontosenac.pontosenac.repository.RegistroPontoRepository;
-
 import jakarta.servlet.http.HttpSession;
 
 @Service
@@ -55,6 +53,22 @@ public class RelatorioService {
         }
 
         return mesesEAnos;
+    }
+
+    public ModelAndView filtrarRegistrosPonto(String mesAno, HttpSession session, Model model) {
+
+        ModelAndView mv = new ModelAndView("relatorio");
+        Pessoa pessoa = (Pessoa) session.getAttribute("pessoaAutenticada");
+        List<RegistroPonto> registrosPonto = registroPontoRepository.findByPessoaId(pessoa.getId());
+        List<RegistroPonto> registroFiltrado = registroPontoRepository.findByDataEndsWith(mesAno);
+        boolean limpar = true;
+        mv.addObject("registrosPonto", registroFiltrado);
+        mv.addObject("mesAnoSelecionado", mesAno); // Adicione esta linha
+        Set<String> mesesEAnosUnicos = lsitarMesAno(registrosPonto);
+        mv.addObject("mesAno", mesesEAnosUnicos);
+        model.addAttribute("limpar", limpar);
+        return mv;
+
     }
 
 }

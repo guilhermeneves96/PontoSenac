@@ -36,13 +36,22 @@
     <main>
         <div>
             <h1 class="display-large-sb title-filtro">Registro de Ponto</h1>
-            <form class="filtro" action="" method="POST">
-                                    <select name="filtroMes" required>
-                        <option>Filtrar por mês</option>
-                        <option th:each="mesAno: ${mesAno}" th:value="${mesAno}" th:text="${mesAno}" ></option>
-                    </select>
-                <button class="buttorn-secundary">Filtrar</button>
+            <div>
+            <form class="filtro" action="/relatorio" method="POST">
+                <select name="filtroMes" required>
+                    <option value="">Filtrar por mês</option>
+                    <option th:each="mesAno : ${mesAno}" 
+                            th:value="${mesAno}" 
+                            th:text="${mesAno}" 
+                            th:selected="${mesAno == mesAnoSelecionado}"></option>
+                </select>
+                <button type="submit" class="buttorn-secundary">Filtrar</button>
             </form>
+            <form th:if="${limpar}" action="/relatorio" method="get">
+                <button type="submit" class="button-ghost">Ver todos</button>
+            </form>
+        </div>
+
         </div>
 
         <section class="registro-pontos">

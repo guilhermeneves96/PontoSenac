@@ -20,8 +20,8 @@
             <img th:src="@{/img/logosenac.svg}" alt="Logo Senac">
             <nav>
                 <ul>
-                    <li><a class="active" href="#">Inicio</a></li>
-                    <li><a th:href="@{'/relatorio'}">Relatórios</a></li>
+                    <li><a th:href="@{'/inicio'}">Inicio</a></li>
+                    <li><a class="active" th:href="@{'/colaboradores/lista'}">Relatórios</a></li>
                     <li><a th:href="@{'/solicitacao'}">Solicitações</a></li>
                 </ul>
             </nav>
@@ -35,23 +35,12 @@
 
     <main>
         <div class="contraste-0 identificacao">
-            <h1 class="display-large-md">Olá, <span class="display-medium-sb" th:text="${pessoa.nome}"></span></h1>
+            <h1 class="display-large-md" th:text="${pessoa.nome}"></h1>
             <div class="primary-50 funcao-matricula">
                 <span class="componentes-medium-md" th:text="${pessoa.funcao.descricao}"></span>
                 <span class="componentes-medium-rg"> Matricula: <span th:text="${pessoa.matricula}"></span></span>
             </div>
         </div>
-        <section class="registrar-ponto">
-            <div class="">
-                <span class="componentes-medium-sb clound-300">Hoje é</span>
-                <h3 class="display-medium-rg" th:text="${dataAtual}">13, Jan 2024</h3>
-            </div>
-            <div>
-                <form action="/baterponto" method="post">
-                    <button class="button" type="submit">Registrar Ponto</button>
-                </form>
-            </div>            
-        </section>
 
         <section class="registro-pontos">
             <h3 class="section-large-sb clound-800">Registro de Ponto</h3>

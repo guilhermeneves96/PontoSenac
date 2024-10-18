@@ -53,7 +53,9 @@
             </thead>
             <tbody>
                 <tr data-th-each="colaborador: ${colaboradores}">
-                    <td class="componentes-medium-md" data-th-text="${colaborador.nome}"></td>
+                    <td class="componentes-medium-md">
+                        <a class="link" th:href="@{'/colaboradores/detalhes/'+${colaborador.id}}" data-th-text="${colaborador.nome}"></a>
+                    </td>
                     <td class="compomemtes-medium-rg clound-300" data-th-text="${colaborador.funcao.descricao}"></td>
                     <td class="compomemtes-medium-rg clound-300" data-th-text="${colaborador.matricula}"></td>
                     <td class="compomemtes-medium-rg clound-300">
