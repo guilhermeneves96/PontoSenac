@@ -1,14 +1,12 @@
-package com.pontosenac.pontosenac.controllers;
+package com.pontosenac.pontosenac.services;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pontosenac.pontosenac.componentes.Data;
@@ -18,15 +16,13 @@ import com.pontosenac.pontosenac.repository.RegistroPontoRepository;
 
 import jakarta.servlet.http.HttpSession;
 
-@Controller
-@RequestMapping("/inicio")
-public class InicioAdmin {
+@Service
+public class InicioAdminService {
 
     @Autowired
     RegistroPontoRepository registroPontoRepository;
 
-    @GetMapping
-    public ModelAndView paginaIncio(Model model, HttpSession session) {
+    public ModelAndView paginaInicio(Model model, HttpSession session) {
         ModelAndView mv = new ModelAndView("inicioAdmin");
         Pessoa pessoa = (Pessoa) session.getAttribute("pessoaAutenticada");
         Data data = new Data();
