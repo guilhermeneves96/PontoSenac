@@ -27,13 +27,13 @@ public class RelatorioService {
         List<RegistroPonto> registrosPonto = registroPontoRepository.findByPessoaId(pessoa.getId());
         mv.addObject("registrosPonto", registrosPonto);
 
-        Set<String> mesesEAnosUnicos = lsitarMesAno(registrosPonto);
+        Set<String> mesesEAnosUnicos = listarMesAno(registrosPonto);
         mv.addObject("mesAno", mesesEAnosUnicos);
 
         return mv;
     }
 
-    public Set<String> lsitarMesAno(List<RegistroPonto> registros) {
+    public Set<String> listarMesAno(List<RegistroPonto> registros) {
 
         Set<String> mesesEAnos = new HashSet<>();
         DateTimeFormatter formatar = DateTimeFormatter.ofPattern("dd, MMM yyyy")
@@ -55,16 +55,17 @@ public class RelatorioService {
         return mesesEAnos;
     }
 
-    public ModelAndView filtrarRegistrosPonto(String mesAno, HttpSession session, Model model) {
+    public ModelAndView filtrarRegistrosPonto(String rota, String mesAno, HttpSession session, Model model) {
 
-        ModelAndView mv = new ModelAndView("relatorio");
+        ModelAndView mv = new ModelAndView(rota);
         Pessoa pessoa = (Pessoa) session.getAttribute("pessoaAutenticada");
+
         List<RegistroPonto> registrosPonto = registroPontoRepository.findByPessoaId(pessoa.getId());
         List<RegistroPonto> registroFiltrado = registroPontoRepository.findByDataEndsWith(mesAno);
         boolean limpar = true;
         mv.addObject("registrosPonto", registroFiltrado);
-        mv.addObject("mesAnoSelecionado", mesAno); // Adicione esta linha
-        Set<String> mesesEAnosUnicos = lsitarMesAno(registrosPonto);
+        mv.addObject("mesAnoSelecionado", mesAno);
+        Set<String> mesesEAnosUnicos = listarMesAno(registrosPonto);
         mv.addObject("mesAno", mesesEAnosUnicos);
         model.addAttribute("limpar", limpar);
         return mv;

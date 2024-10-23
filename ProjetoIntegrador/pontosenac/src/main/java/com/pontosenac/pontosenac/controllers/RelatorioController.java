@@ -25,7 +25,7 @@ public class RelatorioController {
 
     @PostMapping
     public ModelAndView filtro(@RequestParam("filtroMes") String filtroMes, Model model, HttpSession session) {
-        return relatorioService.filtrarRegistrosPonto(filtroMes, session, model);
+        return relatorioService.filtrarRegistrosPonto("relatorio", filtroMes, session, model);
     }
 
 }

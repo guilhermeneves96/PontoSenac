@@ -7,15 +7,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.pontosenac.pontosenac.model.Pessoa;
 import com.pontosenac.pontosenac.repository.RegistroPontoRepository;
 import com.pontosenac.pontosenac.services.ColaboradorService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/colaboradores")
-public class Colaboradores {
+public class ColaboradoresControllers {
 
     @Autowired
     RegistroPontoRepository registroPontoRepository;
@@ -48,8 +51,13 @@ public class Colaboradores {
     }
 
     @GetMapping("/detalhes/{id}")
-    public ModelAndView detalhesColaborador(@PathVariable("id") int id, Model model) {
-        return colaboradorService.paginaDetalheColaborador(id, model);
+    public ModelAndView detalhesColaborador(@PathVariable("id") int id, Model model, HttpSession session) {
+        return colaboradorService.paginaDetalheColaborador(id, model, session);
+    }
+
+    @PostMapping
+    public ModelAndView filtro(@RequestParam("filtroMes") String filtroMes, Model model, HttpSession session) {
+        return colaboradorService.filtrarRegistrosPonto(filtroMes, session, model);
     }
 
 }

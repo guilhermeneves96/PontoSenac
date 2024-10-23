@@ -63,7 +63,7 @@
         <div  class="title-filtro">
           <h2 class="display-large-sb title-filtro contraste-0">Registro de Ponto</h2>
           <div class="filtro">
-            <form class="filtro" action="/relatorio" method="POST">
+            <form class="filtro" action="/colaboradores" method="POST">
               <select name="filtroMes" required>
                 <option value="">Filtrar por mês</option>
                 <option
@@ -76,12 +76,12 @@
               <button type="submit" class="buttorn-secundary secundary-dark ">Filtrar</button>
             </form>
 
-            <form th:if="${limpar}" action="/relatorio" method="get">
+            <form th:if="${limpar}" action="@{/colaboradores/detalhes/{id}(id=${pessoa.id})}" method="get">
               <button type="submit" class="button-ghost">Ver todos</button>
-            </form>
+          </form>
           </div>
         </div>
-
+       
         <table>
           <thead>
             <tr>

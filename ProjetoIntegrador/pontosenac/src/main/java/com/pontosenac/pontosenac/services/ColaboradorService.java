@@ -1,5 +1,9 @@
 package com.pontosenac.pontosenac.services;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -7,9 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.List;
-import java.util.Optional;
 
 import com.pontosenac.pontosenac.model.Funcao;
 import com.pontosenac.pontosenac.model.Perfil;
@@ -19,6 +20,8 @@ import com.pontosenac.pontosenac.repository.FuncaoRepository;
 import com.pontosenac.pontosenac.repository.PerfilRepository;
 import com.pontosenac.pontosenac.repository.PessoaRepository;
 import com.pontosenac.pontosenac.repository.RegistroPontoRepository;
+
+import jakarta.servlet.http.HttpSession;
 
 @Service
 public class ColaboradorService {
@@ -33,6 +36,8 @@ public class ColaboradorService {
     FuncaoRepository funcaoRepository;
     @Autowired
     PerfilRepository perfilRepository;
+    @Autowired
+    RelatorioService relatorioService;
 
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -109,9 +114,16 @@ public class ColaboradorService {
         }
     }
 
-    public ModelAndView paginaDetalheColaborador(int id, Model model) {
+    public ModelAndView paginaDetalheColaborador(int id, Model model, HttpSession session) {
         ModelAndView mv = new ModelAndView("detalheColaborador");
         Optional<Pessoa> optionalPessoa = pessoaRepository.findById(id);
+
+        Pessoa pessoaLogada = (Pessoa) session.getAttribute("pessoaAutenticada");
+        if (pessoaLogada == null) {
+            // Lógica para lidar com o caso em que a pessoa não está autenticada
+            mv.setViewName("redirect:/login"); // ou qualquer outra lógica
+            return mv;
+        }
 
         if (optionalPessoa.isPresent()) {
             Pessoa pessoa = optionalPessoa.get();
@@ -119,6 +131,10 @@ public class ColaboradorService {
 
             List<RegistroPonto> registrosPonto = registroPontoRepository.findByPessoaId(pessoa.getId());
             mv.addObject("registrosPontos", registrosPonto);
+
+            Set<String> mesesEAnosUnicos = relatorioService.listarMesAno(registrosPonto);
+            mv.addObject("mesAno", mesesEAnosUnicos);
+
         } else {
             // Trate o caso em que a pessoa não é encontrada, por exemplo:
             mv.addObject("error", "Colaborador não encontrado");
@@ -126,4 +142,9 @@ public class ColaboradorService {
 
         return mv;
     }
+
+    public ModelAndView filtrarRegistrosPonto(String mesAno, HttpSession session, Model model) {
+        return relatorioService.filtrarRegistrosPonto("detalheColaborador", mesAno, session, model);
+    }
+
 }

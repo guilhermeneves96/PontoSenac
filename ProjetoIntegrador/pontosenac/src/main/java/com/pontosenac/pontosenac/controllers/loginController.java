@@ -34,23 +34,20 @@ public class loginController {
 
     @PostMapping("/validar")
     public String Acesso(Pessoa pessoa, Model model, RedirectAttributes redirect, HttpSession session) {
-
         Optional<Pessoa> pessoaOpt = pessoaRepository.findByMatricula(pessoa.getMatricula());
-
         if (pessoaOpt.isPresent()) {
+
             Pessoa p = pessoaOpt.get();
+
             if (passwordEncoder.matches(pessoa.getSenha(), p.getSenha())) {
-                // Armazenar a pessoa autenticada na sessão
+
                 session.setAttribute("pessoaAutenticada", p);
 
                 return p.getPerfil().getPermissao().equalsIgnoreCase("admin") ? "redirect:/inicio"
                         : "redirect:/baterponto";
             }
         }
-
-        // Caso não encontre a pessoa ou senha não coincida
         redirect.addFlashAttribute("erro", "Matrícula ou senha inválida");
         return "redirect:/login";
     }
-
 }
