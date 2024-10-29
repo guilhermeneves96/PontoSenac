@@ -29,6 +29,12 @@ public class SolicitacoesService {
     PessoaRepository pessoaRepository;
 
     public ModelAndView pagina(HttpSession session, Model model) {
+        Pessoa pessoa = (Pessoa) session.getAttribute("pessoaAutenticada");
+        return pessoa.getPerfil().getPermissao().equalsIgnoreCase("admin") ? paginaAdm(session, model)
+                : paginaUser(session, model);
+    }
+
+    public ModelAndView paginaUser(HttpSession session, Model model) {
         ModelAndView mv = new ModelAndView("listaSolicitacao");
         Pessoa pessoa = (Pessoa) session.getAttribute("pessoaAutenticada");
         if (pessoa != null) {
@@ -36,6 +42,25 @@ public class SolicitacoesService {
                     ? solicitacoesRepository.findAll()
                     : solicitacoesRepository.findByPessoa(pessoa);
             mv.addObject("solicitacoes", solicitacaos);
+        } else {
+            model.addAttribute("erro", "Você não esta Autenticado");
+            mv.setViewName("redirect:/login");
+        }
+
+        return mv;
+    }
+
+    public ModelAndView paginaAdm(HttpSession session, Model model) {
+        ModelAndView mv = new ModelAndView("listaSolicitacaoAdm");
+        Pessoa pessoa = (Pessoa) session.getAttribute("pessoaAutenticada");
+
+        if (pessoa != null && pessoa.getPerfil().getPermissao().equalsIgnoreCase("admin")) {
+
+            List<Solicitacao> solicitacaos = pessoa.getPerfil().getPermissao().equalsIgnoreCase("admin")
+                    ? solicitacoesRepository.findAll()
+                    : solicitacoesRepository.findByPessoa(pessoa);
+            mv.addObject("solicitacoes", solicitacaos);
+
         } else {
             model.addAttribute("erro", "Você não esta Autenticado");
             mv.setViewName("redirect:/login");

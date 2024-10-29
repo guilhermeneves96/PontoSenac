@@ -25,7 +25,7 @@
             <nav>
                 <ul>
                     <li><a th:href="${'/baterponto'}">Inicio</a></li>
-                    <li><a href="#">Relatórios</a></li>
+                    <li><a  th:href="@{'/colaboradores/lista'}">Colaboradores</a></li>
                     <li><a class="active" th:href="${'/solicitacao'}">Solicitações</a></li>
                 </ul>
             </nav>
@@ -47,6 +47,7 @@
             <thead>
                 <tr>
                     <th>Data Abertura</th>
+                    <th>Colaborador</th>
                     <th>Tipo</th>
                     <th>Descrição</th>
                     <th>Status</th>
@@ -56,6 +57,7 @@
             <tbody>
                 <tr data-th-each="solicitacao: ${solicitacoes}">
                     <td class="componentes-medium-md" data-th-text="${solicitacao.dataAbertura}"></td>
+                    <td class="componentes-medium-md" data-th-text="${solicitacao.pessoa.nome}"></td>
                     <td class="compomemtes-medium-rg clound-300" data-th-text="${solicitacao.tipoSolicitacao.descricao}"></td>
                     <td class="compomemtes-medium-rg clound-300" data-th-text="${solicitacao.descricao}"></td>
                     <td id="statusTd" class="compomemtes-medium-rg clound-300"
