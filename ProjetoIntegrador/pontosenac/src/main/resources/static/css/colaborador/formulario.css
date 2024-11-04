@@ -29,6 +29,12 @@ form div input {
     gap: 32px;
 }
 
+
+.col3{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+}
 .div-btn {
     display: flex;
     flex-direction: column;

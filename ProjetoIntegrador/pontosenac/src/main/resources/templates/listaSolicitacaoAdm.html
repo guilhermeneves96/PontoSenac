@@ -64,7 +64,7 @@
                     data-th-text="${solicitacao.solicitacaoStatus}">
                 </td>
                     <td class="componentes-medium-rg clound-300 ">
-                        <a>
+                        <a th:href="@{'/solicitacao/detalhe/'+${solicitacao.id}}">
                             <img th:src="@{/icons/edit.svg}" alt="Editar">
                         </a>
                     </td>

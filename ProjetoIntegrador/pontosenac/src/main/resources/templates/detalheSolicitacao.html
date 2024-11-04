@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/colaborador/colaborador.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/colaborador/formulario.css}">
+    <title>Solicitaçao</title>
+</head>
+<body>
+    <div class="header-bg">
+        <header>
+            <img th:src="@{/img/logosenac.svg}" alt="Logo Senac">
+            <nav>
+                <ul>
+                    <li><a th:href="${'/baterponto'}">Inicio</a></li>
+                    <li><a  th:href="@{'/colaboradores/lista'}">Colaboradores</a></li>
+                    <li><a class="active" th:href="${'/solicitacao'}">Solicitações</a></li>
+                </ul>
+            </nav>
+            <div>
+                <a href=""> <img th:src="@{/icons/config.svg}" alt="Configurações"></a>
+                <a href=""><img th:src="@{/icons/exit.svg}" alt="Sair do sistema"></a>
+            </div>
+        </header>
+    </div>
+
+    <main>
+        <h1 class="display-large-sb">Detalhe da Solicitação</h1>
+
+        <span class="clound-300 componentes-medium-rg">Solicitação aberta em <span th:text="${solicitacao?.dataAbertura}"></span></span>
+        <form class="container" action="/colaboradores/salvar" method="post">
+
+            <div>
+            <label for="">Tipo</label>
+            <span th:text="${solicitacao.tipoSolicitacao.descricao}"></span>
+            </div>
+
+            <div class="col3">
+                <div>
+                    <label for="">Data para Alteração</label>
+                    <span th:text="${solicitacao.dataSolicita}"></span>
+                </div>
+    
+                <div>
+                    <label for="">Hora Entrada</label>
+                    <span th:text="${solicitacao.horaEntrada}"></span>
+                </div>
+    
+                <div>
+                    <label for="">Hora Saida</label>
+                    <span th:text="${solicitacao.horaSaida}"></span>
+                </div>
+            </div>
+          
+            <div>
+                <label for="">Solicitação</label>
+                <span th:text="${solicitacao.descricao}"></span>
+            </div>
+
+        </form>
+    </main>    
+</body>
+</html>

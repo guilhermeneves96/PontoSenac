@@ -4,12 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import com.pontosenac.pontosenac.model.Solicitacao;
 import com.pontosenac.pontosenac.services.SolicitacoesService;
-
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -32,6 +32,11 @@ public class SolicitacaoController {
     @PostMapping("/salvar")
     public String salvar(Solicitacao solicitacao, HttpSession session) {
         return solicitacoesService.salvar(solicitacao, session);
+    }
+
+    @GetMapping("/detalhe/{id}")
+    public ModelAndView detalhesSolicitacao(@PathVariable("id") int id, Model model) {
+        return solicitacoesService.acessarSolicitacao(id, model);
     }
 
 }

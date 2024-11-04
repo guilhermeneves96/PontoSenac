@@ -1,6 +1,7 @@
 package com.pontosenac.pontosenac.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -99,9 +100,24 @@ public class SolicitacoesService {
 
         solicitacao.setDataAbertura(dataHoje);
         solicitacao.setPessoa(pessoa);
+        solicitacao.setDataSolicita(Data.converterData(solicitacao.getDataSolicita()));
         solicitacao.setSolicitacaoStatus(SolicitacaoStatus.PENDENTE);
         solicitacoesRepository.save(solicitacao);
         return "redirect:/solicitacao";
+    }
+
+    public ModelAndView acessarSolicitacao(int id, Model model) {
+        ModelAndView mv = new ModelAndView("detalheSolicitacao");
+        Optional<Solicitacao> solicitacaoOpt = solicitacoesRepository.findById(id);
+
+        if (solicitacaoOpt.isPresent()) {
+            mv.addObject("solicitacao", solicitacaoOpt.get()); // Extraindo o objeto
+        } else {
+            // Tratar o caso em que a solicitação não é encontrada
+            mv.setViewName("erro"); // Redirecionar para uma página de erro, por exemplo
+        }
+
+        return mv;
     }
 
 }
