@@ -147,4 +147,38 @@ public class ColaboradorService {
         return relatorioService.filtrarRegistrosPonto("detalheColaborador", mesAno, session, model);
     }
 
+    public ModelAndView filtrarDetalheColaborador(int id, String mesAno, Model model, HttpSession session) {
+        ModelAndView mv = new ModelAndView("detalheColaborador");
+        Optional<Pessoa> optionalPessoa = pessoaRepository.findById(id);
+
+        Pessoa pessoaLogada = (Pessoa) session.getAttribute("pessoaAutenticada");
+        if (pessoaLogada == null) {
+            mv.setViewName("redirect:/login");
+            return mv;
+        }
+
+        if (optionalPessoa.isPresent()) {
+            Pessoa pessoa = optionalPessoa.get();
+            mv.addObject("pessoa", pessoa); // Adiciona a Pessoa ao modelo
+
+            List<RegistroPonto> registrosPonto = registroPontoRepository.findByPessoaId(pessoa.getId());
+            List<RegistroPonto> registroFiltrado = registroPontoRepository.findByPessoaAndData(pessoa, mesAno);
+            // List<RegistroPonto> registroFiltrado =
+            // registroPontoRepository.findByDataEndsWith(mesAno);
+
+            System.out.println(registroFiltrado.size());
+
+            boolean limpar = true;
+            mv.addObject("registrosPontos", registroFiltrado); // Corrigir nome da variável
+            mv.addObject("mesAnoSelecionado", mesAno);
+            Set<String> mesesEAnosUnicos = relatorioService.listarMesAno(registrosPonto);
+            mv.addObject("mesAno", mesesEAnosUnicos);
+            model.addAttribute("limpar", limpar);
+        } else {
+            mv.addObject("error", "Colaborador não encontrado");
+        }
+
+        return mv;
+    }
+
 }

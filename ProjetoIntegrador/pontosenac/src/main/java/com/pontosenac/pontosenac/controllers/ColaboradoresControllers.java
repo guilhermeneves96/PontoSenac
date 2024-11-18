@@ -55,6 +55,12 @@ public class ColaboradoresControllers {
         return colaboradorService.paginaDetalheColaborador(id, model, session);
     }
 
+    @PostMapping("/detalhes/{id}")
+    public ModelAndView filtro(@PathVariable("id") int id, Model model, HttpSession session,
+            @RequestParam("filtroMes") String filtroMes) {
+        return colaboradorService.filtrarDetalheColaborador(id, filtroMes, model, session);
+    }
+
     @PostMapping
     public ModelAndView filtro(@RequestParam("filtroMes") String filtroMes, Model model, HttpSession session) {
         return colaboradorService.filtrarRegistrosPonto(filtroMes, session, model);
