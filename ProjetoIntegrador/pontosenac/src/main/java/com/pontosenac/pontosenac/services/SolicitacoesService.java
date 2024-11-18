@@ -9,11 +9,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pontosenac.pontosenac.componentes.Data;
+import com.pontosenac.pontosenac.componentes.Hora;
+import com.pontosenac.pontosenac.componentes.Periodo;
 import com.pontosenac.pontosenac.componentes.SolicitacaoStatus;
 import com.pontosenac.pontosenac.model.Pessoa;
+import com.pontosenac.pontosenac.model.RegistroPonto;
 import com.pontosenac.pontosenac.model.Solicitacao;
 import com.pontosenac.pontosenac.model.TipoSolicitacao;
 import com.pontosenac.pontosenac.repository.PessoaRepository;
+import com.pontosenac.pontosenac.repository.RegistroPontoRepository;
 import com.pontosenac.pontosenac.repository.SolicitacoesRepository;
 import com.pontosenac.pontosenac.repository.TipoSolicitacaoRepository;
 
@@ -28,6 +32,8 @@ public class SolicitacoesService {
     SolicitacoesRepository solicitacoesRepository;
     @Autowired
     PessoaRepository pessoaRepository;
+    @Autowired
+    RegistroPontoRepository registroPontoRepository;
 
     public ModelAndView pagina(HttpSession session, Model model) {
         Pessoa pessoa = (Pessoa) session.getAttribute("pessoaAutenticada");
@@ -118,6 +124,107 @@ public class SolicitacoesService {
         }
 
         return mv;
+    }
+
+    public String solicitacaoAprovada(Solicitacao solicitacao, HttpSession session, Model model) {
+        Pessoa pessoa = (Pessoa) session.getAttribute("pessoaAutenticada");
+
+        if (pessoa == null) {
+            return "redirect:/login";
+        }
+
+        // Data data = new Data();
+        Hora hora = new Hora();
+
+        String dataSolicitacao = solicitacao.getDataSolicita();
+        String horaEntreda = solicitacao.getHoraEntrada();
+        String horaSaida = solicitacao.getHoraSaida();
+
+        List<RegistroPonto> registroEncontrado = registroPontoRepository.findByPessoaAndData(solicitacao.getPessoa(),
+                dataSolicitacao);
+
+        if (registroEncontrado.isEmpty()) {
+
+            RegistroPonto novoRegistro = new RegistroPonto();
+
+            novoRegistro.setPessoa(solicitacao.getPessoa());
+            novoRegistro.setData(dataSolicitacao);
+            novoRegistro.setHoraEntrada(horaEntreda);
+            novoRegistro.setHoraSaida(horaSaida);
+            novoRegistro.setPeriodo(hora.definirPeriodo(horaEntreda));
+            registroPontoRepository.save(novoRegistro);
+
+            solicitacao.setSolicitacaoStatus(SolicitacaoStatus.CONCLUÍDO);
+            solicitacoesRepository.save(solicitacao);
+
+        } else {
+            System.out.println("Verificando registro existente...");
+            boolean registroAtualizado = false;
+
+            // Verifica se a solicitação cruza diferentes períodos
+            Periodo periodoEntrada = hora.definirPeriodo(horaEntreda);
+            Periodo periodoSaida = hora.definirPeriodo(horaSaida);
+
+            // Se o horário de entrada e saída caem em períodos diferentes
+            if (!periodoEntrada.equals(periodoSaida)) {
+                // Se o horário de entrada está no período matutino e saída no vespertino
+                if (periodoEntrada == Periodo.MATUTINO && periodoSaida == Periodo.VESPERTINO) {
+                    // Cria um registro para o período matutino
+                    RegistroPonto registroMatutino = new RegistroPonto();
+                    registroMatutino.setPessoa(pessoa);
+                    registroMatutino.setData(dataSolicitacao);
+                    registroMatutino.setHoraEntrada(horaEntreda);
+                    registroMatutino.setHoraSaida("12:00"); // Fim do período matutino
+                    registroMatutino.setPeriodo(Periodo.MATUTINO);
+                    registroPontoRepository.save(registroMatutino);
+
+                    // Cria um registro para o período vespertino
+                    RegistroPonto registroVespertino = new RegistroPonto();
+                    registroVespertino.setPessoa(pessoa);
+                    registroVespertino.setData(dataSolicitacao);
+                    registroVespertino.setHoraEntrada("12:01"); // Início do período vespertino
+                    registroVespertino.setHoraSaida(horaSaida);
+                    registroVespertino.setPeriodo(Periodo.VESPERTINO);
+                    registroPontoRepository.save(registroVespertino);
+
+                    registroAtualizado = true;
+                }
+                // Verifica outros intervalos de períodos, como vespertino -> noturno ou
+                // matutino -> noturno
+                // Adapte conforme os diferentes cruzamentos de períodos que você precisa lidar
+            } else {
+                // Caso a solicitação esteja completamente dentro de um único período
+                for (RegistroPonto registroPonto : registroEncontrado) {
+                    // Verifica se o período do registro existente é diferente do período atual
+                    if (registroPonto.getPeriodo() != periodoEntrada) {
+                        // Cria um novo registro para o período diferente
+                        RegistroPonto novoRegistro = new RegistroPonto();
+                        novoRegistro.setPessoa(pessoa);
+                        novoRegistro.setData(dataSolicitacao);
+                        novoRegistro.setHoraEntrada(horaEntreda);
+                        novoRegistro.setHoraSaida(horaSaida);
+                        novoRegistro.setPeriodo(periodoEntrada);
+                        registroPontoRepository.save(novoRegistro);
+                        registroAtualizado = true;
+                    } else if (registroPonto.getPeriodo() == periodoEntrada
+                            && !registroPonto.getHoraEntrada().isEmpty()
+                            && (registroPonto.getHoraSaida() == null || registroPonto.getHoraSaida().isEmpty())) {
+                        // Atualiza a hora de saída
+                        registroPonto.setHoraSaida(horaSaida);
+                        registroPontoRepository.save(registroPonto);
+                        registroAtualizado = true;
+                    }
+                }
+            }
+
+            // Caso nenhum registro tenha sido atualizado, você pode lançar um erro ou
+            // mensagem
+            if (!registroAtualizado) {
+                System.out.println("Nenhum registro foi atualizado.");
+            }
+        }
+
+        return "redirect:/solicitacoes";
     }
 
 }
