@@ -159,20 +159,20 @@ public class ColaboradorService {
 
         if (optionalPessoa.isPresent()) {
             Pessoa pessoa = optionalPessoa.get();
-            mv.addObject("pessoa", pessoa); // Adiciona a Pessoa ao modelo
 
-            List<RegistroPonto> registrosPonto = registroPontoRepository.findByPessoaId(pessoa.getId());
-            List<RegistroPonto> registroFiltrado = registroPontoRepository.findByPessoaAndData(pessoa, mesAno);
-            // List<RegistroPonto> registroFiltrado =
-            // registroPontoRepository.findByDataEndsWith(mesAno);
-
-            System.out.println(registroFiltrado.size());
+            // Filtrar registros pelo mês/ano
+            List<RegistroPonto> registroFiltrado = registroPontoRepository.findByPessoaAndMesAno(pessoa, mesAno);
 
             boolean limpar = true;
-            mv.addObject("registrosPontos", registroFiltrado); // Corrigir nome da variável
+            mv.addObject("pessoa", pessoa);
+            mv.addObject("registrosPontos", registroFiltrado);
             mv.addObject("mesAnoSelecionado", mesAno);
+
+            // Atualizar lista de meses/anos disponíveis
+            List<RegistroPonto> registrosPonto = registroPontoRepository.findByPessoaId(pessoa.getId());
             Set<String> mesesEAnosUnicos = relatorioService.listarMesAno(registrosPonto);
             mv.addObject("mesAno", mesesEAnosUnicos);
+
             model.addAttribute("limpar", limpar);
         } else {
             mv.addObject("error", "Colaborador não encontrado");

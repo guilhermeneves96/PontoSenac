@@ -71,14 +71,11 @@
               </select>
               <button type="submit" class="buttorn-secundary secundary-dark">Filtrar</button>
 
-              <a th:if="${limpar}" th:href="@{'/colaboradores/detalhes/'+${pessoa.id}}" class="button-ghost" >Limpar</a>
+              <a th:if="${limpar}" th:href="@{'/colaboradores/detalhes/'+${pessoa.id}}" class="button-ghost contraste-0" >Limpar</a>
 
 
           </form>
 
-            <form th:if="${limpar}" action="@{/colaboradores/detalhes/{id}(id=${pessoa.id})}" method="get">
-              <button type="submit" class="button-ghost">Ver todos</button>
-          </form>
           
           </div>
         </div>

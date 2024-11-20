@@ -62,14 +62,15 @@ public class RelatorioService {
 
         List<RegistroPonto> registrosPonto = registroPontoRepository.findByPessoaId(pessoa.getId());
         List<RegistroPonto> registroFiltrado = registroPontoRepository.findByDataEndsWith(mesAno);
+
         boolean limpar = true;
         mv.addObject("registrosPonto", registroFiltrado);
         mv.addObject("mesAnoSelecionado", mesAno);
+
         Set<String> mesesEAnosUnicos = listarMesAno(registrosPonto);
         mv.addObject("mesAno", mesesEAnosUnicos);
         model.addAttribute("limpar", limpar);
         return mv;
 
     }
-
 }
