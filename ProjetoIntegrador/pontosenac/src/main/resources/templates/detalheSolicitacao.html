@@ -30,8 +30,10 @@
         <h1 class="display-large-sb">Detalhe da Solicitação</h1>
 
         <span class="clound-300 componentes-medium-rg">Solicitação aberta em <span th:text="${solicitacao?.dataAbertura}"></span></span>
-        <form class="container" action="/colaboradores/salvar" method="post">
+        <form class="container" action="/solicitacao/aceitar" method="post">
 
+            <input type="hidden" name="id" th:value="${solicitacao.id}" />
+            
             <div>
             <label for="">Tipo</label>
             <span th:text="${solicitacao.tipoSolicitacao.descricao}"></span>
@@ -57,6 +59,10 @@
             <div>
                 <label for="">Solicitação</label>
                 <span th:text="${solicitacao.descricao}"></span>
+            </div>
+
+            <div>
+                <button type="submit" class="button">Aceitar</button>
             </div>
 
         </form>

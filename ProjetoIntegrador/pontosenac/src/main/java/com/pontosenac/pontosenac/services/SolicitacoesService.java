@@ -126,105 +126,78 @@ public class SolicitacoesService {
         return mv;
     }
 
-    public String solicitacaoAprovada(Solicitacao solicitacao, HttpSession session, Model model) {
-        Pessoa pessoa = (Pessoa) session.getAttribute("pessoaAutenticada");
-
-        if (pessoa == null) {
-            return "redirect:/login";
+    public String solicitacaoAprovada(int id, HttpSession session, Model model) {
+        Solicitacao solicitacaoOpt = solicitacoesRepository.findById(id).orElse(null);
+        if (solicitacaoOpt == null) {
+            return "redirect:/solicitacao?erro=solicitacao-nao-encontrada";
         }
 
-        // Data data = new Data();
         Hora hora = new Hora();
+        Periodo periodoEntrada = hora.definirPeriodo(solicitacaoOpt.getHoraEntrada());
+        Periodo periodoSaida = hora.definirPeriodo(solicitacaoOpt.getHoraSaida());
 
-        String dataSolicitacao = solicitacao.getDataSolicita();
-        String horaEntreda = solicitacao.getHoraEntrada();
-        String horaSaida = solicitacao.getHoraSaida();
+        // Define a solicitação como concluída
+        solicitacaoOpt.setSolicitacaoStatus(SolicitacaoStatus.CONCLUÍDO);
+        solicitacoesRepository.save(solicitacaoOpt);
 
-        List<RegistroPonto> registroEncontrado = registroPontoRepository.findByPessoaAndData(solicitacao.getPessoa(),
-                dataSolicitacao);
+        // Busca registros existentes para o dia e pessoa
+        List<RegistroPonto> registrosPontos = registroPontoRepository
+                .findByPessoaAndData(solicitacaoOpt.getPessoa(), solicitacaoOpt.getDataSolicita());
 
-        if (registroEncontrado.isEmpty()) {
+        if (registrosPontos.isEmpty()) {
+            // Se não há registros, cria um novo ou divide por períodos
+            if (periodoEntrada != periodoSaida) {
+                // Caso entrada e saída sejam em períodos diferentes, divide o registro
+                criarNovoRegistro(solicitacaoOpt.getPessoa(), solicitacaoOpt.getDataSolicita(),
+                        solicitacaoOpt.getHoraEntrada(), "12:00:00", periodoEntrada); // Matutino termina às 12h
 
-            RegistroPonto novoRegistro = new RegistroPonto();
-
-            novoRegistro.setPessoa(solicitacao.getPessoa());
-            novoRegistro.setData(dataSolicitacao);
-            novoRegistro.setHoraEntrada(horaEntreda);
-            novoRegistro.setHoraSaida(horaSaida);
-            novoRegistro.setPeriodo(hora.definirPeriodo(horaEntreda));
-            registroPontoRepository.save(novoRegistro);
-
-            solicitacao.setSolicitacaoStatus(SolicitacaoStatus.CONCLUÍDO);
-            solicitacoesRepository.save(solicitacao);
-
+                criarNovoRegistro(solicitacaoOpt.getPessoa(), solicitacaoOpt.getDataSolicita(),
+                        "12:01:00", solicitacaoOpt.getHoraSaida(), periodoSaida); // Vespertino começa às 12h01
+            } else {
+                // Caso entrada e saída sejam no mesmo período
+                criarNovoRegistro(solicitacaoOpt.getPessoa(), solicitacaoOpt.getDataSolicita(),
+                        solicitacaoOpt.getHoraEntrada(), solicitacaoOpt.getHoraSaida(), periodoEntrada);
+            }
         } else {
-            System.out.println("Verificando registro existente...");
+            // Atualiza registros existentes ou cria novos
             boolean registroAtualizado = false;
 
-            // Verifica se a solicitação cruza diferentes períodos
-            Periodo periodoEntrada = hora.definirPeriodo(horaEntreda);
-            Periodo periodoSaida = hora.definirPeriodo(horaSaida);
-
-            // Se o horário de entrada e saída caem em períodos diferentes
-            if (!periodoEntrada.equals(periodoSaida)) {
-                // Se o horário de entrada está no período matutino e saída no vespertino
-                if (periodoEntrada == Periodo.MATUTINO && periodoSaida == Periodo.VESPERTINO) {
-                    // Cria um registro para o período matutino
-                    RegistroPonto registroMatutino = new RegistroPonto();
-                    registroMatutino.setPessoa(pessoa);
-                    registroMatutino.setData(dataSolicitacao);
-                    registroMatutino.setHoraEntrada(horaEntreda);
-                    registroMatutino.setHoraSaida("12:00"); // Fim do período matutino
-                    registroMatutino.setPeriodo(Periodo.MATUTINO);
-                    registroPontoRepository.save(registroMatutino);
-
-                    // Cria um registro para o período vespertino
-                    RegistroPonto registroVespertino = new RegistroPonto();
-                    registroVespertino.setPessoa(pessoa);
-                    registroVespertino.setData(dataSolicitacao);
-                    registroVespertino.setHoraEntrada("12:01"); // Início do período vespertino
-                    registroVespertino.setHoraSaida(horaSaida);
-                    registroVespertino.setPeriodo(Periodo.VESPERTINO);
-                    registroPontoRepository.save(registroVespertino);
-
+            for (RegistroPonto registro : registrosPontos) {
+                if (registro.getPeriodo() == periodoEntrada && registro.getHoraSaida() == null) {
+                    // Atualiza a hora de saída para o registro do mesmo período
+                    registro.setHoraSaida(solicitacaoOpt.getHoraSaida());
+                    registroPontoRepository.save(registro);
                     registroAtualizado = true;
-                }
-                // Verifica outros intervalos de períodos, como vespertino -> noturno ou
-                // matutino -> noturno
-                // Adapte conforme os diferentes cruzamentos de períodos que você precisa lidar
-            } else {
-                // Caso a solicitação esteja completamente dentro de um único período
-                for (RegistroPonto registroPonto : registroEncontrado) {
-                    // Verifica se o período do registro existente é diferente do período atual
-                    if (registroPonto.getPeriodo() != periodoEntrada) {
-                        // Cria um novo registro para o período diferente
-                        RegistroPonto novoRegistro = new RegistroPonto();
-                        novoRegistro.setPessoa(pessoa);
-                        novoRegistro.setData(dataSolicitacao);
-                        novoRegistro.setHoraEntrada(horaEntreda);
-                        novoRegistro.setHoraSaida(horaSaida);
-                        novoRegistro.setPeriodo(periodoEntrada);
-                        registroPontoRepository.save(novoRegistro);
-                        registroAtualizado = true;
-                    } else if (registroPonto.getPeriodo() == periodoEntrada
-                            && !registroPonto.getHoraEntrada().isEmpty()
-                            && (registroPonto.getHoraSaida() == null || registroPonto.getHoraSaida().isEmpty())) {
-                        // Atualiza a hora de saída
-                        registroPonto.setHoraSaida(horaSaida);
-                        registroPontoRepository.save(registroPonto);
-                        registroAtualizado = true;
-                    }
                 }
             }
 
-            // Caso nenhum registro tenha sido atualizado, você pode lançar um erro ou
-            // mensagem
             if (!registroAtualizado) {
-                System.out.println("Nenhum registro foi atualizado.");
+                // Cria novos registros se os períodos forem diferentes
+                if (periodoEntrada != periodoSaida) {
+                    criarNovoRegistro(solicitacaoOpt.getPessoa(), solicitacaoOpt.getDataSolicita(),
+                            solicitacaoOpt.getHoraEntrada(), "12:00:00", periodoEntrada);
+
+                    criarNovoRegistro(solicitacaoOpt.getPessoa(), solicitacaoOpt.getDataSolicita(),
+                            "12:01:00", solicitacaoOpt.getHoraSaida(), periodoSaida);
+                } else {
+                    criarNovoRegistro(solicitacaoOpt.getPessoa(), solicitacaoOpt.getDataSolicita(),
+                            solicitacaoOpt.getHoraEntrada(), solicitacaoOpt.getHoraSaida(), periodoEntrada);
+                }
             }
         }
 
-        return "redirect:/solicitacoes";
+        return "redirect:/solicitacao";
+    }
+
+    // Método auxiliar para criar novo registro
+    private void criarNovoRegistro(Pessoa pessoa, String data, String horaEntrada, String horaSaida, Periodo periodo) {
+        RegistroPonto novoRegistro = new RegistroPonto();
+        novoRegistro.setPessoa(pessoa);
+        novoRegistro.setData(data);
+        novoRegistro.setHoraEntrada(horaEntrada);
+        novoRegistro.setHoraSaida(horaSaida);
+        novoRegistro.setPeriodo(periodo);
+        registroPontoRepository.save(novoRegistro);
     }
 
 }
