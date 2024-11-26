@@ -39,13 +39,19 @@ public class SolicitacaoController {
     }
 
     @GetMapping("/detalhe/{id}")
-    public ModelAndView detalhesSolicitacao(@PathVariable("id") int id, Model model) {
-        return solicitacoesService.acessarSolicitacao(id, model);
+    public ModelAndView detalhesSolicitacao(@PathVariable("id") int id, Model model, HttpSession session) {
+        return solicitacoesService.acessarSolicitacao(id, model, session);
     }
 
     @PostMapping("/aceitar")
     public String aceitarSolicitacao(@RequestParam("id") int id, HttpSession session, Model model) {
         return solicitacoesService.solicitacaoAprovada(id, session, model);
+    }
+
+    @PostMapping("/confirmar")
+    public String confirmarSolicitacao(@RequestParam("id") int id, @RequestParam("acao") String acao,
+            HttpSession session, Model model) {
+        return solicitacoesService.confirmarSolicitacao(acao, id, session, model);
     }
 
 }

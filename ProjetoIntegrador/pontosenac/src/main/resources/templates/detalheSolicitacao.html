@@ -30,7 +30,7 @@
         <h1 class="display-large-sb">Detalhe da Solicitação</h1>
 
         <span class="clound-300 componentes-medium-rg">Solicitação aberta em <span th:text="${solicitacao?.dataAbertura}"></span></span>
-        <form class="container" action="/solicitacao/aceitar" method="post">
+        <form class="container" action="/solicitacao/confirmar" method="post">
 
             <input type="hidden" name="id" th:value="${solicitacao.id}" />
             
@@ -61,8 +61,22 @@
                 <span th:text="${solicitacao.descricao}"></span>
             </div>
 
+            <fieldset>
+                <legend> Report da Solicitaçao</legend>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="acao" value="aceitar" required> Aceitar
+                    </label>
+                    <label>
+                        <input type="radio" name="acao" value="recusar" required> Recusar
+                    </label>
+                </div>
+
+            </fieldset>
+
+
             <div>
-                <button type="submit" class="button">Aceitar</button>
+                <button type="submit" class="button">Confirmar</button>
             </div>
 
         </form>

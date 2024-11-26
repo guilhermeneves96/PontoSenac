@@ -43,3 +43,9 @@ align-items: end;
 .button {
     width: 296px;
 }
+
+.radio label {
+ display: flex;
+ flex-direction: row;
+ gap: 16px;
+}

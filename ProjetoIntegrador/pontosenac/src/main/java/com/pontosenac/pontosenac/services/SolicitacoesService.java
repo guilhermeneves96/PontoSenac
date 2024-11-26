@@ -112,7 +112,7 @@ public class SolicitacoesService {
         return "redirect:/solicitacao";
     }
 
-    public ModelAndView acessarSolicitacao(int id, Model model) {
+    public ModelAndView acessarSolicitacao(int id, Model model, HttpSession session) {
         ModelAndView mv = new ModelAndView("detalheSolicitacao");
         Optional<Solicitacao> solicitacaoOpt = solicitacoesRepository.findById(id);
 
@@ -126,10 +126,58 @@ public class SolicitacoesService {
         return mv;
     }
 
-    public String solicitacaoAprovada(int id, HttpSession session, Model model) {
+    public String confirmarSolicitacao(String acao, int id, HttpSession session, Model model) {
+
+        Pessoa pessoa = (Pessoa) session.getAttribute("pessoa");
+        if (pessoa == null) {
+            return "redirect:/login";
+        }
+
         Solicitacao solicitacaoOpt = solicitacoesRepository.findById(id).orElse(null);
         if (solicitacaoOpt == null) {
-            return "redirect:/solicitacao?erro=solicitacao-nao-encontrada";
+            return "redirect:/solicitacao";
+        }
+
+        if ("aceitar".equalsIgnoreCase(acao)) {
+            return solicitacaoAprovada(id, session, model);
+        } else if ("recusar".equalsIgnoreCase(acao)) {
+            return solicitacaoRecusada(id, session, model);
+        } else {
+            return "redirect:/solicitacao";
+        }
+
+    }
+
+    public String solicitacaoRecusada(int id, HttpSession session, Model model) {
+
+        Pessoa pessoa = (Pessoa) session.getAttribute("pessoa");
+        if (pessoa == null) {
+            return "redirect:/login";
+        }
+
+        Solicitacao solicitacaoOpt = solicitacoesRepository.findById(id).orElse(null);
+        if (solicitacaoOpt == null) {
+            return "redirect:/solicitacao";
+        }
+
+        // Define a solicitação como concluída
+        solicitacaoOpt.setSolicitacaoStatus(SolicitacaoStatus.RECUSADO);
+        solicitacoesRepository.save(solicitacaoOpt);
+
+        return "redirect:/solicitacao";
+
+    }
+
+    public String solicitacaoAprovada(int id, HttpSession session, Model model) {
+
+        Pessoa pessoa = (Pessoa) session.getAttribute("pessoa");
+        if (pessoa == null) {
+            return "redirect:/login";
+        }
+
+        Solicitacao solicitacaoOpt = solicitacoesRepository.findById(id).orElse(null);
+        if (solicitacaoOpt == null) {
+            return "redirect:/solicitacao";
         }
 
         Hora hora = new Hora();
